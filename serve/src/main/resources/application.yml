@@ -3,6 +3,13 @@ serve:
     login-url: /api/login
     logout-url: /api/logout
     api-prefix: /api
+    open-prefix: /open
+    # noinspection SpringBootApplicationYaml
+    prefix-configs:
+      - prefix: /api
+        package-name: com.tempest.serve.controller.api
+      - prefix: /open
+        package-name: com.tempest.serve.controller.open
 spring:
   datasource:
     druid:

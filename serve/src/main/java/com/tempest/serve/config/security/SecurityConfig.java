@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.session.Session;
 import org.springframework.session.data.redis.RedisIndexedSessionRepository;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
@@ -40,12 +41,14 @@ public class SecurityConfig {
     private final RedisTemplate<String, Object> redisTemplate;
     private final UserDetailsService userDetailsService;
     private final ObjectMapper objectMapper;
-    @Value("${serve.controller.api-prefix}")
-    private String apiPrefix;
-    @Value("${serve.controller.logout-url}")
-    private String logoutUrl;
-    @Value("${serve.controller.login-url}")
-    private String loginUrl;
+    @Value("${serve.controller.api-prefix:}")
+    private String apiPrefix = "/api";
+    @Value("${serve.controller.open-prefix:}")
+    private String openPrefix = "/open";
+    @Value("${serve.controller.logout-url:}")
+    private String logoutUrl = "/api/login";
+    @Value("${serve.controller.login-url:}")
+    private String loginUrl = "/api/logout";
 
     public SecurityConfig(RedisTemplate<String, Object> redisTemplate,
                           UserDetailsService userDetailsService,
@@ -61,7 +64,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorization -> authorization
                         .requestMatchers(apiPrefix + "/**")
                         .authenticated()
-                        .requestMatchers("/**", logoutUrl, loginUrl)
+                        .requestMatchers("/**", logoutUrl, loginUrl, openPrefix + "/**")
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -72,7 +75,7 @@ public class SecurityConfig {
                         .sessionRegistry(sessionRegistry())
                 )
                 .csrf(csrf -> csrf
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .csrfTokenRepository(new HttpSessionCsrfTokenRepository())
                 )
                 .cors(Customizer.withDefaults())
                 .addFilterAt(usernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
