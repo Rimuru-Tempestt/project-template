@@ -1,3 +1,8 @@
+serve:
+  controller:
+    login-url: /api/login
+    logout-url: /api/logout
+    api-prefix: /api
 spring:
   datasource:
     druid:
@@ -15,3 +20,10 @@ spring:
           max-active: 10
   profiles:
     active: dev
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: is_delete
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  type-aliases-package: com.tempest.serve.pojo.entity

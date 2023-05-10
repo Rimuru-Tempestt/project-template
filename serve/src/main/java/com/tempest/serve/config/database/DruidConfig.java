@@ -1,4 +1,4 @@
-package com.tempest.serve.config;
+package com.tempest.serve.config.database;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.tempest.serve.config;
+package com.tempest.serve.config.database;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
