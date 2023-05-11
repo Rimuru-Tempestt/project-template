@@ -1,0 +1,21 @@
+serve:
+  controller:
+    cors-all: false
+spring:
+  datasource:
+    druid:
+      url: 127.0.0.1:3306/schema
+      username: root
+      password: 123456
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      username: root
+      password: 123456
+
+logging:
+  level:
+    com.tempest.serve: info
+    root: info
